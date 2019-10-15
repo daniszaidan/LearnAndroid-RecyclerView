@@ -40,6 +40,12 @@ public class MainActivity extends AppCompatActivity {
         rvHeroes.setAdapter(gridHeroAdapter);
     }
 
+    private void showRecyclerCardView(){
+        rvHeroes.setLayoutManager(new LinearLayoutManager(this));
+        CardViewHeroAdapter cardViewHeroAdapter = new CardViewHeroAdapter(list);
+        rvHeroes.setAdapter(cardViewHeroAdapter);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -61,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
             case R.id.action_cardview:
-
+                showRecyclerCardView();
                 break;
         }
     }
