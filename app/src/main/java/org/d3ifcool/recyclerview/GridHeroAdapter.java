@@ -16,9 +16,17 @@ import androidx.recyclerview.widget.RecyclerView;
 public class GridHeroAdapter extends RecyclerView.Adapter<GridHeroAdapter.GridViewHolder>{
 
     private ArrayList<Hero> listHero;
-
     public GridHeroAdapter(ArrayList<Hero> listHero) {
         this.listHero = listHero;
+    }
+    private OnItemClickCallback onItemClickCallback;
+
+    public void setOnItemClickCallback(OnItemClickCallback onItemClickCallback) {
+        this.onItemClickCallback = onItemClickCallback;
+    }
+
+    public interface OnItemClickCallback {
+        void onItemClicked(Hero data);
     }
 
     @NonNull
@@ -29,12 +37,19 @@ public class GridHeroAdapter extends RecyclerView.Adapter<GridHeroAdapter.GridVi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull GridViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final GridViewHolder holder, int position) {
         Hero hero = listHero.get(position);
         Glide.with(holder.itemView.getContext())
                 .load(hero.getPhoto())
                 .apply(new RequestOptions().override(55, 55))
                 .into(holder.imgPhoto);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onItemClickCallback.onItemClicked(listHero.get(holder.getAdapterPosition()));
+            }
+        });
     }
 
     @Override
@@ -49,4 +64,5 @@ public class GridHeroAdapter extends RecyclerView.Adapter<GridHeroAdapter.GridVi
             imgPhoto = itemView.findViewById(R.id.img_item_photo);
         }
     }
+
 }

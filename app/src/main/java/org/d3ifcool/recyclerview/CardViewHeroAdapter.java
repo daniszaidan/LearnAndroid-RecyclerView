@@ -19,9 +19,17 @@ import androidx.recyclerview.widget.RecyclerView;
 public class CardViewHeroAdapter extends RecyclerView.Adapter<CardViewHeroAdapter.CardViewViewHolder>{
 
     private ArrayList<Hero> listHero;
-
     public CardViewHeroAdapter(ArrayList<Hero> listHero) {
         this.listHero = listHero;
+    }
+    private OnItemClickCallback onItemClickCallback;
+
+    public void setOnItemClickCallback(OnItemClickCallback onItemClickCallback) {
+        this.onItemClickCallback = onItemClickCallback;
+    }
+
+    public interface OnItemClickCallback {
+        void onItemClicked(Hero data);
     }
 
     @NonNull
@@ -53,6 +61,12 @@ public class CardViewHeroAdapter extends RecyclerView.Adapter<CardViewHeroAdapte
             public void onClick(View v) {
                 Toast.makeText(holder.itemView.getContext(), "Share " +
                         listHero.get(holder.getAdapterPosition()).getName(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onItemClickCallback.onItemClicked(listHero.get(holder.getAdapterPosition()));
             }
         });
 
